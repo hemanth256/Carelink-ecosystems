@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareLink - Unified Health Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide-react@0.294.0/dist/lucide-react.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .dashboard-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        .view { display: none; }
+        .view.active { display: block; }
+        .dashboard-view {
+            display: none;
+        }
+        .dashboard-view.active {
+            display: flex;
+        }
+        /* Timeline styles */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 2px solid #e2e8f0;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -39px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #3b82f6; /* blue-500 */
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =================================================================
+    HOME VIEW
+    ================================================================== -->
+    <div id="home-view" class="view active">
+        <header class="bg-white shadow-sm sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <img src="https://i.ibb.co/dK2c1z7/carelink-logo-correct.jpg" alt="CareLink Logo" class="h-10 w-auto">
+                    <span class="text-2xl font-bold text-gray-800">CareLink</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#features" class="text-gray-600 hover:text-blue-600">Features</a>
+                    <a href="#security" class="text-gray-600 hover:text-blue-600">Security</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600">About</a>
+                </div>
+                <button id="login-main-btn" class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors">Login</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="bg-blue-50">
+                <div class="container mx-auto px-6 py-20 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Your Health, Unified and Secure.</h1>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-8">Welcome to CareLink, India's Unified Health Record System. Access your medical history, prescriptions, and lab reports securely with your unique ABHA ID.</p>
+                    <a href="#login-section" class="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg">Get Started</a>
+                </div>
+            </section>
+
+            <!-- Login As Section -->
+            <section id="login-section" class="py-20 bg-white">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Login As</h2>
+                    <p class="text-gray-600 mb-12">Choose your role to access the portal.</p>
+                    <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <!-- Patient Card -->
+                        <div class="login-card p-8 border border-gray-200 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all cursor-pointer" data-role="Patient">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">Patient</h3>
+                            <p class="text-gray-600">Access your health records, manage consent, and view prescriptions.</p>
+                        </div>
+                        <!-- Doctor Card -->
+                        <div class="login-card p-8 border border-gray-200 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all cursor-pointer" data-role="Doctor">
+                            <div class="bg-green-100 text-green-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 18.5h-15V6.5a4.5 4.5 0 1 1 9 0V16"/><path d="M12 6.5V16.5"/><path d="M11 16.5h10v2h-10z"/><path d="M7 16.5h1.5V18H7z"/><path d="M18.5 10.5h2V12h-2z"/><path d="M18.5 13.5h2V15h-2z"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">Doctor</h3>
+                            <p class="text-gray-600">View patient history, create prescriptions, and manage appointments.</p>
+                        </div>
+                        <!-- Pharmacist Card -->
+                        <div class="login-card p-8 border border-gray-200 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all cursor-pointer" data-role="Pharmacist">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h4"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">Pharmacist</h3>
+                            <p class="text-gray-600">Verify prescriptions and manage medication dispensing records.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-gray-800 text-white py-10">
+            <div class="container mx-auto px-6 text-center">
+                <p>© 2025 National Health Authority, Government of India. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- =================================================================
+    PATIENT OPTIONS VIEW
+    ================================================================== -->
+    <div id="patient-options-view" class="view">
+        <div class="min-h-screen flex items-center justify-center bg-gray-100">
+            <div class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-8 m-4">
+                 <button id="back-to-home-from-options" class="text-gray-500 hover:text-blue-600 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Home
+                </button>
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Select a Service</h2>
+                <p class="text-center text-gray-500 mb-12">Choose a healthcare service to proceed.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Pregnancy Care Card -->
+                    <div class="patient-option-card p-8 border border-gray-200 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all cursor-pointer" data-sub-role="Pregnancy">
+                        <div class="bg-pink-100 text-pink-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2.2c1.4.1 2.3.3 2.8.5.5.2 1.1.5 1.6.9.5.4.9.9 1.3 1.3.4.5.7 1.1.9 1.6.2.5.4 1.4.5 2.8.1 1.4.1 2.6.1 3.6s0 2.2-.1 3.6c-.1 1.4-.3 2.3-.5 2.8-.2.5-.5 1.1-.9 1.6-.4.5-.9.9-1.3 1.3-.5.4-1.1.7-1.6.9-.5.2-1.4.4-2.8.5-1.4.1-2.6.1-3.6.1s-2.2 0-3.6-.1c-1.4-.1-2.3-.3-2.8-.5-.5-.2-1.1-.5-1.6-.9-.4-.5-.9-.9-1.3-1.3-.4-.5-.7-1.1-.9-1.6-.2-.5-.4-1.4-.5-2.8-.1-1.4-.1-2.6-.1-3.6s0-2.2.1-3.6c.1-1.4.3-2.3.5-2.8.2-.5.5-1.1.9-1.6.4-.5.9-.9 1.3-1.3.5-.4 1.1-.7 1.6-.9.5-.2 1.4-.4 2.8-.5 1.4-.1 2.6-.1 3.6-.1s2.2 0 3.6.1z"/><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M12 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2 text-center">Pregnancy Care</h3>
+                        <p class="text-gray-600 text-center">Track your pregnancy journey, appointments, and reports.</p>
+                    </div>
+                    <!-- General Health Card -->
+                    <div class="patient-option-card p-8 border border-gray-200 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-2 transition-all cursor-pointer" data-sub-role="General">
+                         <div class="bg-blue-100 text-blue-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2 text-center">General Health</h3>
+                        <p class="text-gray-600 text-center">Access your complete health records for all other needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================================
+    LOGIN VIEW
+    ================================================================== -->
+    <div id="login-view" class="view">
+        <div class="min-h-screen flex items-center justify-center bg-gray-100">
+            <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 m-4">
+                <button id="back-to-home" class="text-gray-500 hover:text-blue-600 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Home
+                </button>
+                <h2 id="login-title" class="text-3xl font-bold text-center text-gray-800 mb-2">Login</h2>
+                <p class="text-center text-gray-500 mb-8">Enter your credentials to access your dashboard.</p>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="username" class="block text-gray-700 font-semibold mb-2">ABHA ID / Professional ID</label>
+                        <input type="text" id="username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your ID" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-gray-700 font-semibold mb-2">Password</label>
+                        <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- =================================================================
+    DASHBOARDS
+    ================================================================== -->
+    
+    <!-- Patient Dashboard -->
+    <div id="patient-dashboard" class="dashboard-view bg-gray-100 min-h-screen">
+        <aside class="w-64 bg-white shadow-md p-6 hidden md:block">
+            <div class="flex items-center space-x-3 mb-10">
+                <img src="https://i.ibb.co/dK2c1z7/carelink-logo-correct.jpg" alt="CareLink Logo" class="h-8 w-auto">
+                <span class="text-xl font-bold text-gray-800">CareLink</span>
+            </div>
+            <nav class="space-y-4">
+                <a href="#" class="flex items-center space-x-3 text-blue-600 bg-blue-50 p-3 rounded-lg font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-gray-600 hover:bg-gray-100 p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>My Records</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-gray-600 hover:bg-gray-100 p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12H19c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h2.5"/><path d="M21.5 12H19c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h2.5"/><path d="M17 12h2.5a1.5 1.5 0 0 0 1.5-1.5v-5a1.5 1.5 0 0 0-1.5-1.5H19a2 2 0 0 0-2 2v10"/><path d="M3.5 4H5c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2H3.5"/><path d="M3.5 4H5c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2H3.5"/><path d="M7 4h2.5a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 9.5 12H7a2 2 0 0 1-2-2V4"/></svg>
+                    <span>Consent Manager</span>
+                </a>
+            </nav>
+        </aside>
+        <div class="flex-1">
+            <header class="bg-white shadow-sm p-6 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Patient Dashboard</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">Welcome, Anjali!</span>
+                    <button class="logout-btn bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Logout</button>
+                </div>
+            </header>
+            <main class="p-8">
+                 <!-- Medical Records Timeline -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">My Medical Timeline</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <p class="font-semibold text-gray-500 text-sm">Sep 15, 2025</p>
+                            <h4 class="font-bold text-lg text-gray-800">Lab Test: Complete Blood Count</h4>
+                            <p class="text-gray-600">Report from Apollo Diagnostics. All values within normal range.</p>
+                            <a href="#" class="text-blue-600 hover:underline">View Report</a>
+                        </div>
+                        <div class="timeline-item">
+                             <div class="timeline-dot"></div>
+                            <p class="font-semibold text-gray-500 text-sm">Aug 28, 2025</p>
+                            <h4 class="font-bold text-lg text-gray-800">Consultation with Dr. Sharma</h4>
+                            <p class="text-gray-600">Prescribed Paracetamol for fever. Follow-up after 3 days.</p>
+                             <a href="#" class="text-blue-600 hover:underline">View Prescription</a>
+                        </div>
+                         <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <p class="font-semibold text-gray-500 text-sm">Jan 12, 2024</p>
+                            <h4 class="font-bold text-lg text-gray-800">Annual Health Check-up</h4>
+                            <p class="text-gray-600">General check-up at City Hospital. Vitals are stable.</p>
+                            <a href="#" class="text-blue-600 hover:underline">View Summary</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prescriptions and Reports Tables -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Recent Prescriptions</h3>
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="py-2">Date</th>
+                                    <th class="py-2">Doctor</th>
+                                    <th class="py-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2">Aug 28, 2025</td>
+                                    <td class="py-2">Dr. Sharma</td>
+                                    <td class="py-2"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm">Filled</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">May 05, 2025</td>
+                                    <td class="py-2">Dr. Patel</td>
+                                    <td class="py-2"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm">Filled</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Recent Lab Reports</h3>
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="py-2">Date</th>
+                                    <th class="py-2">Test Name</th>
+                                    <th class="py-2">Lab</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2">Sep 15, 2025</td>
+                                    <td class="py-2">CBC</td>
+                                    <td class="py-2">Apollo</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">Jan 12, 2024</td>
+                                    <td class="py-2">Lipid Profile</td>
+                                    <td class="py-2">Metropolis</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Doctor Dashboard -->
+    <div id="doctor-dashboard" class="dashboard-view bg-gray-100 min-h-screen">
+        <aside class="w-64 bg-white shadow-md p-6 hidden md:block">
+            <div class="flex items-center space-x-3 mb-10">
+                 <img src="https://i.ibb.co/dK2c1z7/carelink-logo-correct.jpg" alt="CareLink Logo" class="h-8 w-auto">
+                <span class="text-xl font-bold text-gray-800">CareLink</span>
+            </div>
+            <nav class="space-y-4">
+                <a href="#" class="flex items-center space-x-3 text-green-600 bg-green-50 p-3 rounded-lg font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                    <span>Patients</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-gray-600 hover:bg-gray-100 p-3 rounded-lg">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>Appointments</span>
+                </a>
+                 <a href="#" class="flex items-center space-x-3 text-gray-600 hover:bg-gray-100 p-3 rounded-lg">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Prescriptions</span>
+                </a>
+            </nav>
+        </aside>
+        <div class="flex-1">
+            <header class="bg-white shadow-sm p-6 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Doctor Dashboard</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">Welcome, Dr. Sharma!</span>
+                    <button class="logout-btn bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Logout</button>
+                </div>
+            </header>
+            <main class="p-8">
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Today's Appointments - Sep 25, 2025</h3>
+                        <ul class="space-y-4">
+                            <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-semibold">Anjali Verma (ABHA: 12-3456-7890-1234)</p>
+                                    <p class="text-sm text-gray-500">10:00 AM - Follow-up Consultation</p>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:underline font-semibold">View Records</a>
+                            </li>
+                            <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-semibold">Rohan Singh (ABHA: 98-7654-3210-9876)</p>
+                                    <p class="text-sm text-gray-500">11:30 AM - New Patient Consultation</p>
+                                </div>
+                                 <a href="#" class="text-blue-600 hover:underline font-semibold">View Records</a>
+                            </li>
+                             <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-semibold">Priya Mehta (ABHA: 56-4738-2910-4837)</p>
+                                    <p class="text-sm text-gray-500">02:00 PM - Routine Check-up</p>
+                                </div>
+                                 <a href="#" class="text-blue-600 hover:underline font-semibold">View Records</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors">Create New Prescription</button>
+                            <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">Search Patient Record</button>
+                             <button class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition-colors">Manage Schedule</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Pharmacist Dashboard -->
+    <div id="pharmacist-dashboard" class="dashboard-view bg-gray-100 min-h-screen">
+       <aside class="w-64 bg-white shadow-md p-6 hidden md:block">
+            <div class="flex items-center space-x-3 mb-10">
+                <img src="https://i.ibb.co/dK2c1z7/carelink-logo-correct.jpg" alt="CareLink Logo" class="h-8 w-auto">
+                <span class="text-xl font-bold text-gray-800">CareLink</span>
+            </div>
+            <nav class="space-y-4">
+                <a href="#" class="flex items-center space-x-3 text-purple-600 bg-purple-50 p-3 rounded-lg font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                    <span>Verify Rx</span>
+                </a>
+                 <a href="#" class="flex items-center space-x-3 text-gray-600 hover:bg-gray-100 p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span>Dispensed History</span>
+                </a>
+            </nav>
+        </aside>
+        <div class="flex-1">
+            <header class="bg-white shadow-sm p-6 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Pharmacist Dashboard</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">Welcome, Mr. Gupta!</span>
+                    <button class="logout-btn bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Logout</button>
+                </div>
+            </header>
+            <main class="p-8">
+                 <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Verify Prescription</h3>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" placeholder="Enter Prescription ID (e.g., RX-2025-98765)" class="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <button class="bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors">Verify</button>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Pending Prescriptions Queue</h3>
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="border-b bg-gray-50">
+                                <th class="p-3">Prescription ID</th>
+                                <th class="p-3">Patient Name</th>
+                                <th class="p-3">Doctor</th>
+                                <th class="p-3">Date</th>
+                                <th class="p-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-3 font-mono">RX-2025-98765</td>
+                                <td class="p-3">Anjali Verma</td>
+                                <td class="p-3">Dr. Sharma</td>
+                                <td class="p-3">Sep 25, 2025</td>
+                                <td class="p-3"><a href="#" class="text-purple-600 font-semibold hover:underline">View & Dispense</a></td>
+                            </tr>
+                             <tr class="border-b">
+                                <td class="p-3 font-mono">RX-2025-98764</td>
+                                <td class="p-3">Rohan Singh</td>
+                                <td class="p-3">Dr. Sharma</td>
+                                <td class="p-3">Sep 25, 2025</td>
+                                <td class="p-3"><a href="#" class="text-purple-600 font-semibold hover:underline">View & Dispense</a></td>
+                            </tr>
+                             <tr class="border-b">
+                                <td class="p-3 font-mono">RX-2025-98763</td>
+                                <td class="p-3">Vikram Reddy</td>
+                                <td class="p-3">Dr. Patel</td>
+                                <td class="p-3">Sep 24, 2025</td>
+                                <td class="p-3"><a href="#" class="text-purple-600 font-semibold hover:underline">View & Dispense</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const views = {
+                home: document.getElementById('home-view'),
+                patientOptions: document.getElementById('patient-options-view'),
+                login: document.getElementById('login-view'),
+                patientDashboard: document.getElementById('patient-dashboard'),
+                doctorDashboard: document.getElementById('doctor-dashboard'),
+                pharmacistDashboard: document.getElementById('pharmacist-dashboard')
+            };
+
+            const loginTitle = document.getElementById('login-title');
+            const loginForm = document.getElementById('login-form');
+            const loginCards = document.querySelectorAll('.login-card');
+            const patientOptionCards = document.querySelectorAll('.patient-option-card');
+            const backToHomeBtn = document.getElementById('back-to-home');
+            const backToHomeFromOptionsBtn = document.getElementById('back-to-home-from-options');
+            const logoutBtns = document.querySelectorAll('.logout-btn');
+            const mainLoginBtn = document.getElementById('login-main-btn');
+
+            let currentUserRole = null;
+
+            function showView(viewId) {
+                Object.values(views).forEach(view => {
+                    view.classList.remove('active');
+                    // Special handling for flex dashboards
+                    if(view.id.includes('dashboard')) {
+                        view.style.display = 'none';
+                    } else {
+                         view.style.display = 'none';
+                    }
+                });
+                
+                const activeView = document.getElementById(viewId);
+                activeView.classList.add('active');
+
+                if(viewId.includes('dashboard')){
+                     activeView.style.display = 'flex';
+                } else {
+                     activeView.style.display = 'block';
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Login cards on homepage
+            loginCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const role = card.dataset.role;
+                    if (role === 'Patient') {
+                        showView('patient-options-view');
+                    } else {
+                        currentUserRole = role;
+                        loginTitle.textContent = `${currentUserRole} Login`;
+                        showView('login-view');
+                    }
+                });
+            });
+
+            // Patient option cards (Pregnancy/General)
+            patientOptionCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    currentUserRole = 'Patient';
+                    // You can use card.dataset.subRole here if needed for specific logic
+                    loginTitle.textContent = `Patient Login`;
+                    showView('login-view');
+                });
+            });
+
+            // Main login button in nav
+            mainLoginBtn.addEventListener('click', () => {
+                // Default to patient login if no role selected, or show a modal to choose
+                document.getElementById('login-section').scrollIntoView({ behavior: 'smooth' });
+            });
+
+
+            // Back to Home button on login page
+            backToHomeBtn.addEventListener('click', () => {
+                showView('home-view');
+            });
+
+            // Back to Home from Patient Options
+            backToHomeFromOptionsBtn.addEventListener('click', () => {
+                showView('home-view');
+            });
+
+            // Login form submission (simulation)
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!currentUserRole) return;
+
+                switch(currentUserRole) {
+                    case 'Patient':
+                        showView('patient-dashboard');
+                        break;
+                    case 'Doctor':
+                        showView('doctor-dashboard');
+                        break;
+                    case 'Pharmacist':
+                        showView('pharmacist-dashboard');
+                        break;
+                }
+            });
+            
+            // Logout buttons
+            logoutBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentUserRole = null;
+                    loginForm.reset();
+                    showView('home-view');
+                });
+            });
+
+            // Initial view
+            showView('home-view');
+        });
+    </script>
+
+</body>
+</html>
+
